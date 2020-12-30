@@ -16,7 +16,7 @@ npm install --production
 npm install pm2@latest -g
 ```
 
-##Start an app
+## Start an app
 
 ```
 pm2 restart app_name
@@ -25,7 +25,7 @@ pm2 stop app_name
 pm2 delete app_name
 ```
 
-##List managed applications
+## List managed applications
 
 ```
 pm2 [list|ls|status]
