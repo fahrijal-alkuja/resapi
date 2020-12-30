@@ -1,6 +1,6 @@
 if (process.env.NODE_ENV === "production") {
   module.exports = {
-    mongoURI: "",
+    mongoURI: "mongodb://45.130.229.108:2717/dbayok",
     secret: "yoursecret"
   };
 } else {
