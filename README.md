@@ -16,7 +16,7 @@ npm install --production
 npm install pm2@latest -g
 ```
 
-## Start an app
+## gitStart an app
 
 ```
 pm2 restart app_name
