@@ -1,12 +1,44 @@
 const express = require("express");
 const router = express.Router();
-const Mhs = require("../../model/Mhs");
+const mhs = require("../../model/Mhs");
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  }
+});
+const fileFilter = (req, file, cb) => {
+  // reject a file
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "application/pdf"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
 
-router.post("/add", (req, res) => {
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter: fileFilter
+});
+//!fungsi post
+router.post("/add", upload.single("foto"), (req, res, next) => {
+  console.log(req.file);
   let { nim, nama } = req.body;
+  let foto = req.file.path;
   let newMhs = new Mhs({
     nim,
-    nama
+    nama,
+    foto
   });
   newMhs.save().then(mhs => {
     return res.status(200).json({
@@ -18,16 +50,9 @@ router.post("/add", (req, res) => {
 
 //!fungsi GET
 router.get("/dataMhs", function (req, res) {
-  // Mhs.find(function (err, mhs) {
-  //   if (err) return next(err);
-  //   res.json(mhs);
-  // });
-  Mhs.find().then(mhs => {
-    return res.status(200).json({
-      success: true,
-      msg: "Data all mhs.",
-      data: res.json(mhs)
-    });
+  Mhs.find(function (err, mhs) {
+    if (err) return next(err);
+    res.json(mhs);
   });
 });
 

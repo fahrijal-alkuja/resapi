@@ -8,6 +8,10 @@ const MhsSchema = new Schema({
   nama: {
     type: String,
     required: true
+  },
+  foto: {
+    type: String,
+    required: true
   }
 });
 module.exports = Mhs = mongoose.model("mhs", MhsSchema);

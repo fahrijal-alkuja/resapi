@@ -24,7 +24,7 @@ app.use(cors());
 
 // Seting up the static directory
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use("/uploads", express.static("uploads"));
 // Use the passport Middleware
 app.use(passport.initialize());
 // Bring in the Passport Strategy
