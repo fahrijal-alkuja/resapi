@@ -98,14 +98,14 @@ router.post("/login", (req, res) => {
           payload,
           key,
           {
-            expiresIn: 604800
+            expiresIn: "1h"
           },
           (err, token) => {
             res.status(200).json({
               success: true,
               token: `Bearer ${token}`,
               user: user,
-              msg: "Hurry! You are now logged in."
+              msg: "Selamat Anda berhsil Login."
             });
           }
         );
