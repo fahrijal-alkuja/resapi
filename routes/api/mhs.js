@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const mhs = require("../../model/Mhs");
+const Mhs = require("../../model/Mhs");
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -48,11 +48,17 @@ router.post("/add", upload.single("foto"), (req, res, next) => {
 });
 
 //!fungsi GET
-router.get("/dataMhs", function (req, res) {
-  Mhs.find(function (err, mhs) {
-    if (err) return next(err);
-    res.json(mhs);
-  });
+router.get("/dataMhs", (req, res, next) => {
+  Mhs.find()
+    .select("nim nama foto _id")
+    .exec()
+    .then(docs => {
+      const response = {
+        count: docs.length,
+        data: docs
+      };
+      res.status(200).json(response);
+    });
 });
 
 //!delete function
