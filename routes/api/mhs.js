@@ -32,7 +32,6 @@ const upload = multer({
 });
 //!fungsi post
 router.post("/add", upload.single("foto"), (req, res, next) => {
-  console.log(req.file);
   let { nim, nama } = req.body;
   let foto = req.file.path;
   let newMhs = new Mhs({
