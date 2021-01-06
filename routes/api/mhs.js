@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Mhs = require("../../model/Mhs");
 const multer = require("multer");
+const passport = require("passport");
+const checkAuth = passport.authenticate("jwt", {
+  session: false
+});
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./uploads/");
@@ -31,7 +35,7 @@ const upload = multer({
   fileFilter: fileFilter
 });
 //!fungsi post
-router.post("/add", upload.single("foto"), (req, res, next) => {
+router.post("/add", checkAuth, upload.single("foto"), (req, res, next) => {
   let { nim, nama } = req.body;
   let foto = req.file.path;
   let newMhs = new Mhs({
@@ -48,7 +52,7 @@ router.post("/add", upload.single("foto"), (req, res, next) => {
 });
 
 //!fungsi GET
-router.get("/dataMhs", (req, res, next) => {
+router.get("/dataMhs", checkAuth, (req, res, next) => {
   Mhs.find()
     .select("nim nama foto _id")
     .exec()
@@ -62,7 +66,7 @@ router.get("/dataMhs", (req, res, next) => {
 });
 
 //!delete function
-router.delete("/delete/:_id", (req, res) => {
+router.delete("/delete/:_id", checkAuth, (req, res) => {
   Mhs.findByIdAndRemove({ _id: req.params._id }).then(mhs => {
     return res.status(200).json({
       success: true,
@@ -72,7 +76,7 @@ router.delete("/delete/:_id", (req, res) => {
 });
 
 //!update function
-router.put("/update/:_id", function (req, res, next) {
+router.put("/update/:_id", checkAuth, function (req, res, next) {
   Mhs.findByIdAndUpdate(req.params._id, req.body, function (err) {
     if (err) return next(err);
     res.status(200).json({
