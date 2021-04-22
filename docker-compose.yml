@@ -1,24 +1,30 @@
-version: "3"
-
+version: "3.8"
 services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: "Dockerfile"
     ports:
       - "3000:3000"
+    container_name: nodejs-api
+    depends_on:
+      - "mongo"
     volumes:
-      - .:/restApi
-    working_dir: /restApi
+      - ./logs:/var/www/logs
     networks:
-      - app-network
+      - "app-network"
     links:
-      - mongodb
+      - "mongo"
 
-  mongodb:
-    image: mongo
+  mongo:
+    image: mongo:4.2
+    ports:
+      - "27017:27017"
+    container_name: mongo
     networks:
-      - app-network
+      - "app-network"
+    volumes:
+      - /data/db
 
 networks:
   app-network:

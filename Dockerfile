@@ -1,20 +1,13 @@
 FROM node:8.11.1-alpine
-
-LABEL maintainer="rizal.alkuja@gmail.com"
-
-WORKDIR /resApi
-
-COPY . /resApi
-COPY package.json /resApi/package.json
-VOLUME [ "/restApi/data/db/database" ]
-RUN npm install -g nodemon
+LABEL       author="@lkuja07"
+WORKDIR /var/www/app
+COPY package.json package-lock.json  ./
 RUN npm install
-COPY . /resApi
+RUN npm install -g nodemon
+COPY . ./
+EXPOSE  $PORT
+CMD [ "nodemon", "-L", "app/server.js" ]
 
 ENV NODE_ENV=development
-ENV DATABASE=mongodb://mongodb:27017/dbayok
+ENV mongoURI=mongodb://mongo:27017/dbayok
 ENV PORT=3000
-
-EXPOSE 3000
-
-CMD [ "nodemon", "-L", "/restApi/server.js" ]
