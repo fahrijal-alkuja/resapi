@@ -9,5 +9,5 @@ EXPOSE  $PORT
 CMD [ "nodemon", "-L", "app/server.js" ]
 
 ENV NODE_ENV=development
-ENV mongoURI=mongodb://mongo:27017/dbayok
+ENV DATABASE=mongodb://mongo:27017/dbayok
 ENV PORT=3000
