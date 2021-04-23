@@ -1,5 +1,5 @@
 FROM node:8.11.1-alpine
-LABEL       author="@lkuja07"
+LABEL       maintainer="@lkuja07"
 WORKDIR /var/www/app
 COPY package.json package-lock.json  ./
 RUN npm install
